@@ -1,0 +1,59 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout titulo="Contacto — Celeste Ochoa">
+  <section class="contacto">
+    <img
+      class="personaje"
+      src="/imagenes/movil/contacto.jpg"
+      alt="Personaje de contacto"
+    />
+
+    <p>Por ahora, solo por telepatía.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .contacto {
+    margin-left: 296px;
+    padding-top: 106px;
+  }
+
+  .contacto p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292722;
+  }
+
+  .personaje {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .contacto {
+      margin: 0;
+      min-height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      padding: 24px;
+    }
+
+    .personaje {
+      display: block;
+      width: 65%;
+      max-width: 260px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .contacto p {
+      text-align: center;
+    }
+  }
+</style>

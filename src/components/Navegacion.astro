@@ -1,0 +1,93 @@
+
+---
+const ruta = Astro.url.pathname;
+const enInicio = ruta === "/";
+const enContacto = ruta === "/contacto";
+const enArchivo = ruta === "/archivo";
+---
+
+<nav class="navegacion">
+  <a href="/" class:activo={enInicio} class="enlace-inicio">
+    <span class="nombre-completo">Celeste Ochoa</span>
+    <span class="nombre-corto">Ce</span>
+  </a>
+
+  <a href="/archivo" class:activo={enArchivo} class="enlace-archivo">
+    Archivo
+  </a>
+
+  <a href="/contacto" class:activo={enContacto} class="enlace-contacto">
+    Contacto
+  </a>
+</nav>
+
+<style>
+  .navegacion {
+    position: fixed;
+    top: 79px;
+    left: 86px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 13px;
+    z-index: 100;
+  }
+
+  .navegacion a {
+    display: block;
+    color: #292722;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .navegacion a {
+    font-weight: 400;
+}
+
+.navegacion a.activo {
+  font-weight: 500;
+}
+
+  .nombre-corto {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .navegacion {
+      position: static;
+      margin: 30px 24px 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      gap: 13px;
+      align-items: start;
+    }
+
+    .enlace-inicio {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .enlace-archivo {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .enlace-contacto {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .nombre-completo {
+      display: none;
+    }
+
+    .nombre-corto {
+      display: inline;
+    }
+  }
+</style>

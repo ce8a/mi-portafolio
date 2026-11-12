@@ -1,0 +1,45 @@
+
+---
+import Navegacion from "../components/Navegacion.astro";
+
+const { titulo = "Celeste Ochoa" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{titulo}</title>
+  </head>
+
+  <body>
+    <Navegacion />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ECE9E2;
+    color: #292722;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>

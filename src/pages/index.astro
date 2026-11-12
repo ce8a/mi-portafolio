@@ -1,0 +1,42 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout titulo="Celeste Ochoa">
+  <main class="inicio">
+    <img
+      class="personaje"
+      src="/imagenes/movil/inicio.jpg"
+      alt="Personaje de inicio"
+    />
+  </main>
+</BaseLayout>
+
+<style>
+  .inicio {
+    min-height: 100vh;
+  }
+
+  .personaje {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .inicio {
+      min-height: calc(100vh - 100px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .personaje {
+      display: block;
+      width: 65%;
+      max-width: 260px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+</style>

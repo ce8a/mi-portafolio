@@ -1,0 +1,47 @@
+
+---
+import Navegacion from "../components/Navegacion.astro";
+
+const {
+  titulo,
+  descripcion = "",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{titulo} — Celeste Ochoa</title>
+    <meta name="description" content={descripcion} />
+  </head>
+
+  <body>
+    <Navegacion />
+
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ECE9E2;
+    color: #292722;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  main {
+    min-height: 100vh;
+  }
+</style>

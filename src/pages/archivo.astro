@@ -1,0 +1,185 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { categorias, proyectosIndependientes } from "../data/proyectos.js";
+---
+
+<BaseLayout titulo="Archivo — Celeste Ochoa">
+  <section class="archivo">
+    <div class="columnas">
+
+      <!-- Columna izquierda: categorías y proyectos independientes -->
+      <nav class="lista-categorias">
+        {categorias.map((categoria) => (
+          <button
+            class="categoria"
+            data-categoria={categoria.nombre}
+            aria-expanded="false"
+          >
+            {categoria.nombre}
+          </button>
+        ))}
+
+        {proyectosIndependientes.map((proyecto) => (
+          <a
+            class="proyecto-independiente"
+            href={`/proyectos/${proyecto.slug}`}
+          >
+            {proyecto.nombre}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Columna derecha: proyectos desplegables -->
+      <div class="listas-proyectos">
+        {categorias.map((categoria) => (
+          <div
+            class="lista-proyectos"
+            data-lista={categoria.nombre}
+            hidden
+          >
+            {categoria.nombre !== "Bitácora" &&
+              categoria.proyectos.map((proyecto) => (
+                <a href={`/proyectos/${proyecto.slug}`}>
+                  {proyecto.nombre}
+                </a>
+              ))}
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .archivo {
+    margin-left: 296px;
+    padding-top: 106px;
+  }
+
+  .columnas {
+    display: grid;
+    grid-template-columns: 110px 180px;
+    column-gap: 80px;
+    align-items: start;
+  }
+
+  .lista-categorias {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .categoria {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .listas-proyectos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .lista-proyectos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .lista-proyectos a,
+  .proyecto-independiente {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  .proyecto-independiente {
+    display: block;
+  }
+
+  .categoria:hover,
+  .lista-proyectos a:hover,
+  .proyecto-independiente:hover {
+    opacity: 0.6;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 600px) {
+  .archivo {
+    margin-left: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    left: 110px;
+    width: calc(100% - 155px);
+  }
+
+  .columnas {
+    display: grid;
+    grid-template-columns: minmax(85px, 1fr) minmax(100px, 1fr);
+    column-gap: 12px;
+    align-items: start;
+  }
+
+  .lista-categorias {
+    gap: 20px;
+  }
+
+  .listas-proyectos {
+    min-width: 0;
+  }
+
+  .lista-proyectos {
+    gap: 20px;
+  }
+
+  .lista-proyectos a,
+  .proyecto-independiente {
+    overflow-wrap: anywhere;
+  }
+}
+</style>
+
+<script>
+  const botones = document.querySelectorAll(".categoria");
+  const listas = document.querySelectorAll(".lista-proyectos");
+
+  botones.forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const nombre = boton.dataset.categoria;
+      const lista = document.querySelector(
+        `[data-lista="${nombre}"]`
+      );
+
+      const estabaAbierta =
+        boton.getAttribute("aria-expanded") === "true";
+
+      listas.forEach((elemento) => {
+        elemento.hidden = true;
+      });
+
+      botones.forEach((elemento) => {
+        elemento.setAttribute("aria-expanded", "false");
+      });
+
+      if (!estabaAbierta) {
+        lista.hidden = false;
+        boton.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+</script>

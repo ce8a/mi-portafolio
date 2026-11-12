@@ -1,0 +1,302 @@
+
+---
+import ProyectoLayout from "../../layouts/ProyectoLayout.astro";
+import { categorias, proyectosIndependientes } from "../../data/proyectos.js";
+
+export function getStaticPaths() {
+  const todosLosProyectos = [
+    ...categorias.flatMap((categoria) => categoria.proyectos),
+    ...proyectosIndependientes
+  ];
+
+  return todosLosProyectos.map((proyecto) => ({
+    params: { slug: proyecto.slug },
+    props: { proyecto }
+  }));
+}
+
+const { proyecto } = Astro.props;
+---
+
+<ProyectoLayout
+  titulo={proyecto.nombre}
+  descripcion={proyecto.descripcion}
+>
+  <section class="pagina-proyecto">
+
+    <div class="barra-proyecto">
+      <a class="volver" href="/archivo">Volver</a>
+
+      <header class="encabezado-proyecto">
+        <h1>{proyecto.nombre}</h1>
+
+        {(proyecto.subtitulo || proyecto.anio) && (
+          <p class="anio">
+            {proyecto.subtitulo || proyecto.anio}
+          </p>
+        )}
+      </header>
+    </div>
+
+    <div class="contenido-proyecto">
+      <div class="galeria-proyecto">
+
+        {proyecto.textoAntes && (
+          <p class="texto-antes">{proyecto.textoAntes}</p>
+        )}
+
+        {proyecto.imagenes.map((imagen, index) => (
+          <>
+            {imagen.tipo === "video" ? (
+              <video
+                src={imagen.ruta}
+                controls
+                playsinline
+                preload="metadata"
+                muted={imagen.muted || false}
+              />
+            ) : (
+              <img
+                src={imagen.ruta}
+                alt={`${proyecto.nombre} — imagen ${index + 1}`}
+              />
+            )}
+
+            {index === 0 && proyecto.descripcion && (
+              <p class="descripcion">
+                {proyecto.descripcion}
+              </p>
+            )}
+
+            {imagen.textoDespues && (
+              <p class="texto-imagen">
+                {imagen.textoDespues}
+              </p>
+            )}
+          </>
+        ))}
+
+        {proyecto.informacionFinal && (
+          <div class="informacion-final">
+            {proyecto.informacionFinal.map((item) => (
+              <>
+                {item.tipo === "introduccion" && (
+                  <p class="info-introduccion">{item.texto}</p>
+                )}
+
+                {item.tipo === "seccion" && (
+                  <div class="info-seccion">
+                    <p class="info-titulo">{item.titulo}</p>
+                    {item.lugares.map((lugar) => (
+                      <p class="info-lugar">{lugar}</p>
+                    ))}
+                  </div>
+                )}
+
+                {item.tipo === "credito" && (
+                  <p class="info-credito">
+                    {item.texto} <em>{item.credito}</em>
+                  </p>
+                )}
+              </>
+            ))}
+          </div>
+        )}
+
+        {proyecto.textoFinal && (
+          <p class="texto-final">
+            {proyecto.textoFinal}
+          </p>
+        )}
+
+        {proyecto.enlaceFinal && (
+          <p class="enlace-final">
+            <a
+              href={proyecto.enlaceFinal.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {proyecto.enlaceFinal.texto}
+            </a>
+          </p>
+        )}
+
+      </div>
+    </div>
+
+  </section>
+</ProyectoLayout>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+  .pagina-proyecto {
+    position: relative;
+    margin-left: 296px;
+    padding-top: 79px;
+    padding-right: 60px;
+    padding-bottom: 80px;
+    font-family: 'Montserrat', sans-serif;
+    color: #292722;
+  }
+
+  .barra-proyecto {
+    position: relative;
+    height: 62px;
+  }
+
+  .volver {
+    position: fixed;
+    left: 296px;
+    top: 79px;
+    z-index: 20;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .encabezado-proyecto {
+    position: absolute;
+    left: 383px;
+    top: 0;
+    margin: 0;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .anio {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .contenido-proyecto {
+    width: 599px;
+    max-width: 100%;
+    margin-left: 383px;
+  }
+
+  .galeria-proyecto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 42px;
+  }
+
+  .galeria-proyecto img,
+  .galeria-proyecto video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .descripcion,
+  .texto-imagen,
+  .texto-antes {
+    width: 100%;
+    margin: -12px 0 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    white-space: pre-line;
+    text-align: left;
+  }
+
+  .texto-antes {
+    margin: 0;
+  }
+
+  .texto-final {
+    width: 100%;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    white-space: pre-line;
+    text-align: left;
+  }
+
+  .enlace-final {
+    width: 100%;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .enlace-final a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .informacion-final {
+    width: 100%;
+    margin-top: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+  }
+
+  .info-introduccion {
+    margin: 0 0 20px;
+    font-style: italic;
+  }
+
+  .info-seccion {
+    margin: 0 0 20px;
+  }
+
+  .info-titulo {
+    margin: 0;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .info-lugar {
+    margin: 0;
+    font-style: italic;
+  }
+
+  .info-credito {
+    margin: 0;
+    font-style: normal;
+  }
+
+  @media (max-width: 600px) {
+  .pagina-proyecto {
+    margin-left: 0;
+    padding: 30px 24px;
+  }
+
+  .volver {
+    display: none;
+    }
+
+    .barra-proyecto {
+      height: auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 30px;
+    }
+
+    .volver,
+    .encabezado-proyecto {
+      position: static;
+    }
+
+    .contenido-proyecto {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+</style>
+
