@@ -7,11 +7,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <section class="contacto">
     <img
       class="personaje"
-      src="/imagenes/movil/contacto.jpg"
-      alt="Personaje de contacto"
+      src="/imagenes/movil/c1.jpg"
+      alt="Payaso de contacto"
     />
 
-    <p>Por ahora, solo mensajes telepáticos.</p>
+    <p>celesteochoar@gmail.com</p>
   </section>
 </BaseLayout>
 
@@ -41,19 +41,59 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       justify-content: center;
       align-items: center;
       gap: 18px;
+      transform: translateY(-35px);
       padding: 24px;
     }
 
     .personaje {
+      position: relative;
+      z-index: 1;
       display: block;
-      width: 65%;
-      max-width: 260px;
+      width: 85%;
+      max-width: 340px;
       height: auto;
       object-fit: contain;
     }
 
     .contacto p {
+      position: relative;
+      z-index: 2;
       text-align: center;
     }
   }
 </style>
+
+<script>
+  const personaje = document.querySelector(".personaje");
+
+  if (personaje) {
+    const imagenes = Array.from(
+      { length: 10 },
+      (_, i) => `/imagenes/movil/c${i + 1}.jpg`
+    );
+
+    let indice = 0;
+    let direccion = 1;
+
+    function animarPayaso() {
+      if (indice === 0 || indice === 9) {
+        setTimeout(() => {
+          direccion = indice === 9 ? -1 : 1;
+          indice += direccion;
+          personaje.src = imagenes[indice];
+          animarPayaso();
+        }, 1000);
+
+        return;
+      }
+
+      setTimeout(() => {
+        indice += direccion;
+        personaje.src = imagenes[indice];
+        animarPayaso();
+      }, 60);
+    }
+
+    animarPayaso();
+  }
+</script>

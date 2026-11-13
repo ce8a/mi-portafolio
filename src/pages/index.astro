@@ -8,7 +8,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <img
       class="personaje"
       src="/imagenes/movil/inicio1.jpg"
-      alt="Mariquita"
+      alt="Personaje"
     />
   </main>
 </BaseLayout>
@@ -24,13 +24,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   @media (max-width: 600px) {
     .inicio {
-      min-height: calc(100vh - 100px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transform: translateY(-20px);
-      padding: 24px;
-    }
+  min-height: calc(100vh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-30px);
+  padding: 24px;
+  pointer-events: none;
+}
 
     .personaje {
       display: block;
@@ -38,6 +39,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       max-width: 260px;
       height: auto;
       object-fit: contain;
+      pointer-events: none;
     }
   }
 </style>
@@ -58,6 +60,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     setInterval(() => {
       indice = (indice + 1) % imagenes.length;
       personaje.src = imagenes[indice];
-    }, 500);
+    }, 700);
   }
 </script>
