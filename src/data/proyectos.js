@@ -288,21 +288,24 @@ export const proyectosIndependientes = [
 
 Medellín, 2026.`
 },
-  {
-    nombre: "Carro",
-    slug: "carro",
-    anio: "",
-    descripcion: "",
-    imagenes: [
-      { tipo: "imagen", ruta: "/imagenes/carro/01.jpg" },
-      { tipo: "imagen", ruta: "/imagenes/carro/02.jpg" },
-      { tipo: "video", ruta: "/imagenes/carro/03.mp4" },
-      { tipo: "imagen", ruta: "/imagenes/carro/04.jpg" },
-      { tipo: "imagen", ruta: "/imagenes/carro/05.jpg" },
-      { tipo: "imagen", ruta: "/imagenes/carro/06.jpg" },
-      { tipo: "imagen", ruta: "/imagenes/carro/07.jpg" }
-    ]
-  },
+  
+{
+  nombre: "Carro",
+  slug: "carro",
+  anio: "",
+  descripcion: "",
+  textoFinal: "Carro a escala 1:1 con pedazos de plástico y planchas de cabello.\n\nCon Jacobo Giraldo, Susana Gómez, Carraga, Susana Medina y Sebastián Betancur.\nEscuela de Artes, Universidad Nacional de Colombia, Medellín.",
+  imagenes: [
+    { tipo: "imagen", ruta: "/imagenes/carro/01.jpg" },
+    { tipo: "imagen", ruta: "/imagenes/carro/02.jpg" },
+    { tipo: "video", ruta: "/imagenes/carro/03.mp4" },
+    { tipo: "imagen", ruta: "/imagenes/carro/04.jpg" },
+    { tipo: "imagen", ruta: "/imagenes/carro/05.jpg" },
+    { tipo: "imagen", ruta: "/imagenes/carro/06.jpg" },
+    { tipo: "imagen", ruta: "/imagenes/carro/07.jpg" }
+  ]
+},
+
   {
     nombre: "Casa de Emily Dickinson",
     slug: "casa-de-emily-dickinson",
