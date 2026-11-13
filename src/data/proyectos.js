@@ -46,6 +46,11 @@ export const categorias = [
             texto: "Ubicaciones listadas en orden de aparición"
           },
           {
+  tipo: "seccion",
+  titulo: "Guatemala.",
+  lugares: ["Volcán de Fuego."]
+},
+          {
             tipo: "seccion",
             titulo: "Ciudad de México.",
             lugares: [
@@ -229,13 +234,60 @@ export const categorias = [
 ];
 
 export const proyectosIndependientes = [
-  {
-    nombre: "Historia natural de las cosas particulares",
-    slug: "historia-natural-de-las-cosas-particulares",
-    anio: "2026",
-    descripcion: "",
-    imagenes: []
-  },
+  
+{
+  nombre: "Historia natural de las cosas particulares",
+  slug: "historia-natural-de-las-cosas-particulares",
+  anio: "2026",
+  descripcion: "",
+  imagenes: [
+    {
+      tipo: "secuencia",
+      rutas: [
+        "/imagenes/historia_natural_de_las_cosas_particulares/1.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/2.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/3.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/4.jpg"
+      ],
+      intervalo: 500,
+      textoDespues: `Historia natural de las cosas particulares surge de una exploración del Álbum de Chocolatinas Jet en su edición “Historia Natural” y de cómo sus imágenes despertaron fantasías a toda una generación en torno al mundo desconocido que aparecía en sus páginas. Hay cosas particulares que reposan en los gabinetes mentales. Suelen ser objetos que llegaron a nosotros en manos de otras personas y que, con el tiempo, se agruparon en una especie de inventario de cosas a través de las cuales aprendimos a mirar. Con este álbum quiero compartir un fragmento de los objetos dulces y queridos a los que siempre regreso. Llenarlo, dejarlo tal y como está, o completarlo con otras imágenes, es una elección personal. Esta es, ante todo, una invitación a desempolvar esas imágenes que están guardadas en el cajón de las cosas especiales y que nos enseñaron a imaginar mundos desconocidos.`
+    },
+    {
+      tipo: "imagen",
+      ruta: "/imagenes/historia_natural_de_las_cosas_particulares/5.jpg",
+      textoDespues: "Colecciones: Cosas del espacio, brillos sospechosos, humanos y otros asuntos, domesticación accidentada y vida vegetal."
+    },
+    {
+      tipo: "secuencia",
+      rutas: [
+        "/imagenes/historia_natural_de_las_cosas_particulares/6.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/7.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/8.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/9.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/10.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/11.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/12.jpg",
+        "/imagenes/historia_natural_de_las_cosas_particulares/13.jpg"
+      ],
+      intervalo: 500
+    },
+    {
+      tipo: "imagen",
+      ruta: "/imagenes/historia_natural_de_las_cosas_particulares/14.jpg"
+    },
+    {
+      tipo: "imagen",
+      ruta: "/imagenes/historia_natural_de_las_cosas_particulares/15.jpg"
+    },
+    {
+      tipo: "imagen",
+      ruta: "/imagenes/historia_natural_de_las_cosas_particulares/16.jpg"
+    }
+  ],
+  textoFinal: `Impreso en Gráficas Milenio
+
+Medellín, 2026.`
+},
   {
     nombre: "Carro",
     slug: "carro",
@@ -275,38 +327,50 @@ export const proyectosIndependientes = [
     })
   },
   {
-    nombre: "Jeff Wall",
-    slug: "jeff-wall",
-    anio: "2025",
-    descripcion: "",
-    textoFinal: "Modelo: Estefanía López B.\nFotografía II",
-    imagenes: [1, 2, 3, 4, 6, 7, 8].map((numero) => ({
-  tipo: "imagen",
-  ruta: `/imagenes/jeff_wall/${numero}.jpg`
-}))
-  },
+  nombre: "Jeff Wall",
+  slug: "jeff-wall",
+  anio: "2025",
+  descripcion: "",
+  textoFinal: "Modelo: Estefanía López B.",
+  imagenes: [1, 2, 3, 6, 7, 8].map((numero) => ({
+    tipo: "imagen",
+    ruta: `/imagenes/jeff_wall/${numero}.jpg`
+  }))
+},
   {
-    nombre: "Baby not tonight",
-    slug: "baby-not-tonight",
-    anio: "",
-    subtitulo: "próximamente",
-    descripcion: "",
-    textoFinal:
-      "Dirección: Valentina Vasco Restrepo y Pablo Sánchez Mejía\nProducción: Julián Casaca\nDirector de fotografía: David Correa Carvajal\nDirectores de arte: Celeste Ochoa Restrepo y David Montoya Gómez\nAsistentes de arte: Natalia Acevedo Muñoz y Arch Conaote Saldarriaga\n\nEl sofoco cine.",
-    imagenes: crearFotos("baby_not_tonight", 6)
-  },
-  {
-    nombre: "El gesto inútil",
-    slug: "el-gesto-inutil",
-    anio: "2025",
-    descripcion: "",
-    imagenes: [
-      {
-        tipo: "video",
-        ruta: "/imagenes/el_gesto_inutil/1.mp4"
-      }
-    ]
-  },
+  nombre: "Baby not tonight",
+  slug: "baby-not-tonight",
+  anio: "",
+  subtitulo: "próximamente",
+  descripcion: "",
+  textoFinal:
+    "Dirección: Valentina Vasco Restrepo y Pablo Sánchez Mejía.\nProducción: Julián Dasaca.\nDirector de fotografía: David Correa Carvajal.\nDirectores de arte: Celeste Ochoa Restrepo y David Montoya Gómez.\nAsistentes de arte: Natalia Acevedo Muñoz y Arch Conaote Saldarriaga.\n\nEl sofoco cine.",
+  imagenes: crearFotos("baby_not_tonight", 6)
+},
+{
+  nombre: "El gesto inútil",
+  slug: "el-gesto-inutil",
+  anio: "2025, Avenida La Playa.",
+  descripcion: "",
+  imagenes: [
+    {
+      tipo: "video",
+      ruta: "/imagenes/el_gesto_inutil/1.mp4",
+      textoDespues: `¿Qué pasa cuando el aire se escapa y la forma se pierde?
+
+Si solo queda el vacío sin un aire que pueda darle forma a un contenedor ¿Se puede decir que sigue siendo reconocible?
+
+Dándole vueltas en ochos a muchas palabras que aparecen en las conversaciones del almuerzo, decidimos abordar el gesto inútil como eje central de nuestra entrega colectiva de Taller. En un inicio, el propósito del ejercicio dependía de fabricar una figura inflable y explorar la posibilidad de llenarla de aire por completo. Sin embargo, fue durante las primeras pruebas donde se identificó que en realidad no era posible llevar a cabo el trayecto con la figura inflada, esto sin hacer uso de algún tipo de objeto portátil. Mientras transitábamos el camino, el aire se escapaba de la corteza plástica y cada cierto tiempo parábamos para desplegar la figura en el suelo e intentar llenarla nuevamente por medio de un objeto inútil: Un inflador de bombas para fiestas. Entre el cansancio y la desilusión de materializar lo imposible, el inflador explotó y la figura quedó totalmente vacía. En la inutilidad e incapacidad de los actos, subyace el existir obstinado de la práctica humana.`
+    },
+    {
+      tipo: "imagen",
+      ruta: "/imagenes/el_gesto_inutil/2.jpg"
+    }
+  ],
+  textoFinal: `Con Susana Medina y Jacobo Giraldo.
+
+Escuela de Artes, Universidad Nacional de Colombia, Medellín.`
+},
   {
     nombre: "Inventario de un vuelo",
     slug: "inventario-de-un-vuelo",

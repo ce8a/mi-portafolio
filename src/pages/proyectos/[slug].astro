@@ -55,6 +55,19 @@ const { proyecto } = Astro.props;
                 preload="metadata"
                 muted={imagen.muted || false}
               />
+            ) : imagen.tipo === "secuencia" ? (
+              <div
+                class="secuencia-imagenes"
+                data-secuencia
+                data-rutas={JSON.stringify(imagen.rutas)}
+                data-intervalo={imagen.intervalo || 500}
+              >
+                <img
+                  src={imagen.rutas[0]}
+                  alt={`${proyecto.nombre} — secuencia ${index + 1}`}
+                  data-imagen-secuencia
+                />
+              </div>
             ) : (
               <img
                 src={imagen.ruta}
@@ -127,6 +140,28 @@ const { proyecto } = Astro.props;
   </section>
 </ProyectoLayout>
 
+<script>
+  document.querySelectorAll("[data-secuencia]").forEach((secuencia) => {
+    const rutas = JSON.parse(
+      secuencia.getAttribute("data-rutas") || "[]"
+    );
+
+    const intervalo =
+      Number(secuencia.getAttribute("data-intervalo")) || 500;
+
+    const imagen = secuencia.querySelector("[data-imagen-secuencia]");
+
+    if (!imagen || rutas.length < 2) return;
+
+    let indice = 0;
+
+    window.setInterval(() => {
+      indice = (indice + 1) % rutas.length;
+      imagen.src = rutas[indice];
+    }, intervalo);
+  });
+</script>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 
@@ -187,7 +222,7 @@ const { proyecto } = Astro.props;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 42px;
+    gap: 48px;
   }
 
   .galeria-proyecto img,
@@ -206,7 +241,7 @@ const { proyecto } = Astro.props;
     font-weight: 400;
     line-height: normal;
     white-space: pre-line;
-    text-align: left;
+    text-align: justify;;
   }
 
   .texto-antes {
@@ -271,13 +306,13 @@ const { proyecto } = Astro.props;
   }
 
   @media (max-width: 600px) {
-  .pagina-proyecto {
-    margin-left: 0;
-    padding: 30px 24px;
-  }
+    .pagina-proyecto {
+      margin-left: 0;
+      padding: 30px 24px;
+    }
 
-  .volver {
-    display: none;
+    .volver {
+      display: none;
     }
 
     .barra-proyecto {
@@ -299,4 +334,3 @@ const { proyecto } = Astro.props;
     }
   }
 </style>
-
