@@ -437,11 +437,11 @@ const { proyecto } = Astro.props;
   }
 
   .jardin-zen-creditos {
-    margin-top: 80px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.5;
-  }
+  margin-top: 80px;
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.5;
+}
 
   .jardin-zen-creditos p {
     margin: 0;
@@ -451,6 +451,29 @@ const { proyecto } = Astro.props;
     .pagina-proyecto {
       margin-left: 0;
       padding: 30px 24px;
+
+    /* Ajustes de Jardín Zen para celular */
+    .jardin-zen {
+      width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .jardin-zen img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .jardin-zen-descripcion {
+  text-align: center;
+}
+
+.jardin-zen-creditos,
+.informacion-final {
+  text-align: left;
+}
+
     }
 
     .volver {
