@@ -294,7 +294,7 @@ Medellín, 2026.`
   slug: "carro",
   anio: "",
   descripcion: "",
-  textoFinal: "Carro a escala 1:1 con pedazos de plástico y planchas de cabello.\n\nCon Jacobo Giraldo, Susana Gómez, Carraga, Susana Medina y Sebastián Betancur.\nEscuela de Artes, Universidad Nacional de Colombia, Medellín.",
+  textoFinal: "Carro a escala 1:1 con pedazos de plástico y planchas de cabello.\n\nCon Jacobo Giraldo, Susana Gómez, Carranga, Susana Medina y Sebastián Betancur.\nEscuela de Artes, Universidad Nacional de Colombia, Medellín.",
   imagenes: [
     { tipo: "imagen", ruta: "/imagenes/carro/01.jpg" },
     { tipo: "imagen", ruta: "/imagenes/carro/02.jpg" },
@@ -305,6 +305,42 @@ Medellín, 2026.`
     { tipo: "imagen", ruta: "/imagenes/carro/07.jpg" }
   ]
 },
+
+  {
+    nombre: "Jardín Zen",
+    slug: "jardin-zen",
+    anio: "",
+    subtitulo: "de las Prácticas artísticas",
+    descripcion: "",
+    tipoEspecial: "jardin-zen",
+    cartas: [
+      { numero: 1, nombre: "La herramienta", descripcion: "Usar medios técnicos para expresarse plásticamente.", ruta: "/imagenes/jardin_zen/1_laherramienta.jpg" },
+      { numero: 2, nombre: "El fluir", descripcion: "Ubicar la experiencia por encima del objeto.", ruta: "/imagenes/jardin_zen/2_elfluir.jpg" },
+      { numero: 3, nombre: "El sendero", descripcion: "Generar significado desde un lenguaje cotidiano.", ruta: "/imagenes/jardin_zen/3_elsendero.jpg" },
+      { numero: 4, nombre: "La revelación", descripcion: "Descubrir, interrogar y cambiar la mirada de dirección.", ruta: "/imagenes/jardin_zen/4_larevelacion.jpg" },
+      { numero: 5, nombre: "El umbral", descripcion: "Generar relaciones sociales.", ruta: "/imagenes/jardin_zen/5_elumbral.jpg" },
+      { numero: 6, nombre: "La colmena", descripcion: "Democratizar y pluralizar la creatividad.", ruta: "/imagenes/jardin_zen/6_lacolmena.jpg" },
+      { numero: 7, nombre: "La guía", descripcion: "Pensar nuevas estructuras pedagógicas.", ruta: "/imagenes/jardin_zen/7_laguia.jpg" },
+      { numero: 8, nombre: "El vínculo", descripcion: "Construir sentido a través de las relaciones.", ruta: "/imagenes/jardin_zen/8_elvinculo.jpg" },
+      { numero: 9, nombre: "El reflejo", descripcion: "Construir el pensamiento propio a través de experiencias colectivas.", ruta: "/imagenes/jardin_zen/9_elreflejo.jpg" },
+      { numero: 10, nombre: "La contemplación", descripcion: "Observar conscientemente.", ruta: "/imagenes/jardin_zen/10_lacontemplacion.jpg" },
+      { numero: 11, nombre: "La paciencia", descripcion: "Abordar la investigación-creación con reflexión crítica.", ruta: "/imagenes/jardin_zen/11_lapaciencia.jpg" },
+      { numero: 12, nombre: "El error", descripcion: "Hacer de las grietas parte del proceso.", ruta: "/imagenes/jardin_zen/12_elerror.jpg" },
+      { numero: 13, nombre: "El desplazamiento", descripcion: "Tener diálogos que se pensaban improbables.", ruta: "/imagenes/jardin_zen/13_eldesplazamiento.jpg" },
+      { numero: 14, nombre: "El recorrido", descripcion: "Abordar la investigación social como herramienta de comprensión.", ruta: "/imagenes/jardin_zen/14_elrecorrido.jpg" },
+      { numero: 15, nombre: "La no frontera", descripcion: "Dialogar críticamente con otras disciplinas.", ruta: "/imagenes/jardin_zen/15_lanofrontera.jpg" },
+      { numero: 16, nombre: "La ausencia", descripcion: "Habitar el vacío como posibilidad de sentido.", ruta: "/imagenes/jardin_zen/16_laausencia.jpg" },
+      { numero: 17, nombre: "El encuentro", descripcion: "Convertir el desorden en un medio creador.", ruta: "/imagenes/jardin_zen/17_elencuentro.jpg" },
+      { numero: 18, nombre: "La mudanza", descripcion: "Redefinir hábitos y rasgos sociales.", ruta: "/imagenes/jardin_zen/18_lamudanza.jpg" },
+      { numero: 19, nombre: "La huella", descripcion: "Romper los sistemas de control.", ruta: "/imagenes/jardin_zen/19_lahuella.jpg" },
+      { numero: 20, nombre: "La imperfección", descripcion: "Desligarse de lo bello.", ruta: "/imagenes/jardin_zen/20_laimperfeccion.jpg" }
+    ],
+    creditos: [
+      "Ilustraciones de Jacobo Giraldo",
+      "Escuela de Artes, Universidad Nacional de Colombia- Medellín."
+    ],
+    imagenes: []
+  },
 
   {
     nombre: "Casa de Emily Dickinson",

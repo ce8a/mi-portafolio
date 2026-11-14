@@ -89,6 +89,38 @@ const { proyecto } = Astro.props;
           </>
         ))}
 
+        {proyecto.tipoEspecial === "jardin-zen" && (
+          <div
+            class="jardin-zen"
+            data-jardin-zen
+            data-cartas={JSON.stringify(proyecto.cartas)}
+          >
+            <img
+              src={proyecto.cartas[0].ruta}
+              alt="Baraja Jardín Zen"
+              data-jardin-imagen
+            />
+
+            <div
+              class="jardin-zen-descripcion"
+              data-jardin-descripcion
+              aria-live="polite"
+            >
+              <p class="jardin-zen-instruccion" data-jardin-instruccion>
+                Da clic la imagen.
+              </p>
+              <p class="jardin-zen-titulo" data-jardin-titulo hidden></p>
+              <p class="jardin-zen-texto" data-jardin-texto hidden></p>
+            </div>
+
+            <div class="jardin-zen-creditos">
+              {proyecto.creditos.map((credito) => (
+                <p>{credito}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
         {proyecto.informacionFinal && (
           <div class="informacion-final">
             {proyecto.informacionFinal.map((item) => (
@@ -159,6 +191,68 @@ const { proyecto } = Astro.props;
       indice = (indice + 1) % rutas.length;
       imagen.src = rutas[indice];
     }, intervalo);
+  });
+
+  document.querySelectorAll("[data-jardin-zen]").forEach((baraja) => {
+    const cartas = JSON.parse(baraja.dataset.cartas || "[]");
+    const imagen = baraja.querySelector("[data-jardin-imagen]");
+    const titulo = baraja.querySelector("[data-jardin-titulo]");
+    const texto = baraja.querySelector("[data-jardin-texto]");
+    const instruccion = baraja.querySelector("[data-jardin-instruccion]");
+
+    if (!imagen || !titulo || !texto || !instruccion || cartas.length === 0) return;
+
+    let indice = 0;
+    let intervalo = null;
+    let detenida = false;
+
+    function precargarSiguientes() {
+      for (let i = 1; i <= 2; i++) {
+        const siguiente = new Image();
+        siguiente.src = cartas[(indice + i) % cartas.length].ruta;
+      }
+    }
+
+    function avanzar() {
+      indice = (indice + 1) % cartas.length;
+      imagen.src = cartas[indice].ruta;
+      precargarSiguientes();
+    }
+
+    function iniciar() {
+      if (intervalo !== null) return;
+      intervalo = window.setInterval(avanzar, 120);
+    }
+
+    function detener() {
+      window.clearInterval(intervalo);
+      intervalo = null;
+    }
+
+    precargarSiguientes();
+    iniciar();
+
+    imagen.addEventListener("click", () => {
+      if (!detenida) {
+        detener();
+        detenida = true;
+
+        const carta = cartas[indice];
+        titulo.textContent = `${carta.numero}. ${carta.nombre}`;
+        texto.textContent = carta.descripcion;
+
+        instruccion.hidden = true;
+        titulo.hidden = false;
+        texto.hidden = false;
+      } else {
+        instruccion.hidden = false;
+        titulo.hidden = true;
+        texto.hidden = true;
+
+        detenida = false;
+        iniciar();
+      }
+    });
   });
 </script>
 
@@ -241,7 +335,7 @@ const { proyecto } = Astro.props;
     font-weight: 400;
     line-height: normal;
     white-space: pre-line;
-    text-align: justify;;
+    text-align: justify;
   }
 
   .texto-antes {
@@ -303,6 +397,54 @@ const { proyecto } = Astro.props;
   .info-credito {
     margin: 0;
     font-style: normal;
+  }
+
+  /* Estilos exclusivos de Jardín Zen */
+
+  .jardin-zen {
+    width: 70%;
+  }
+
+  .jardin-zen img {
+    cursor: pointer;
+  }
+
+  .jardin-zen-descripcion {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .jardin-zen-descripcion [hidden] {
+    display: none;
+  }
+
+  .jardin-zen-instruccion,
+  .jardin-zen-titulo,
+  .jardin-zen-texto {
+    margin: 0;
+  }
+
+  .jardin-zen-titulo {
+    font-weight: 500;
+  }
+
+  .jardin-zen-texto {
+    font-weight: 400;
+  }
+
+  .jardin-zen-creditos {
+    margin-top: 80px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .jardin-zen-creditos p {
+    margin: 0;
   }
 
   @media (max-width: 600px) {
