@@ -16,31 +16,6 @@ const url = new URL(Astro.url.pathname, "https://c8a.vercel.app");
 
     <title>{titulo}</title>
 
-    <!-- Vista previa al compartir -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Celeste Ochoa" />
-    <meta property="og:title" content="Celeste Ochoa" />
-    <meta
-      property="og:description"
-      content="Portafolio de Celeste Ochoa."
-    />
-    <meta
-      property="og:image"
-      content="https://c8a.vercel.app/vista-previa.jpg"
-    />
-    <meta property="og:url" content={url.href} />
-    <meta property="og:locale" content="es_CO" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Celeste Ochoa" />
-    <meta
-      name="twitter:description"
-      content="Portafolio de Celeste Ochoa."
-    />
-    <meta
-      name="twitter:image"
-      content="https://c8a.vercel.app/vista-previa.jpg"
-    />
   </head>
 
   <body>
