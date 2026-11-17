@@ -121,13 +121,22 @@ const finales = [14, 15, 16];
     const rutas = JSON.parse(portada?.getAttribute("data-rutas") || "[]");
 
     if (portadaImagen && rutas.length > 1) {
-      let indice = 0;
+  let indice = 0;
 
-      window.setInterval(() => {
-        indice = (indice + 1) % rutas.length;
-        portadaImagen.src = rutas[indice];
-      }, 500);
+  const precargarImagenes = rutas.map((ruta) => {
+    const imagen = new Image();
+    imagen.src = ruta;
+    return imagen;
+  });
+
+  window.setInterval(() => {
+    indice = (indice + 1) % rutas.length;
+
+    if (precargarImagenes[indice].complete) {
+      portadaImagen.src = rutas[indice];
     }
+  }, 500);
+}
 
     const botonesCategoria = proyecto.querySelectorAll("[data-categoria]");
     const piezas = proyecto.querySelectorAll(".pieza");
