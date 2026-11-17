@@ -121,27 +121,29 @@ const finales = [14, 15, 16];
     const rutas = JSON.parse(portada?.getAttribute("data-rutas") || "[]");
 
     if (portadaImagen && rutas.length > 1) {
-  let indice = 0;
+      let indice = 0;
 
-  const precargarImagenes = rutas.map((ruta) => {
-    const imagen = new Image();
-    imagen.src = ruta;
-    return imagen;
-  });
+      const precargarImagenes = rutas.map((ruta) => {
+        const imagen = new Image();
+        imagen.src = ruta;
+        return imagen;
+      });
 
-  window.setInterval(() => {
-    indice = (indice + 1) % rutas.length;
+      window.setInterval(() => {
+        indice = (indice + 1) % rutas.length;
 
-    if (precargarImagenes[indice].complete) {
-      portadaImagen.src = rutas[indice];
+        if (precargarImagenes[indice].complete) {
+          portadaImagen.src = rutas[indice];
+        }
+      }, 500);
     }
-  }, 500);
-}
 
     const botonesCategoria = proyecto.querySelectorAll("[data-categoria]");
     const piezas = proyecto.querySelectorAll(".pieza");
 
     let piezaActiva = null;
+    let piezaSecuenciaAutomatica = null;
+
     let temporizadorInicio = null;
     let temporizadorTexto = null;
     let temporizadorRegreso = null;
@@ -178,10 +180,17 @@ const finales = [14, 15, 16];
       window.clearTimeout(temporizadorRegreso);
     }
 
-    // Primera imagen de cada categoría:
-    // 2 segundos de sticker, 2 segundos de texto y regreso al sticker.
+    // Secuencia automática de la primera imagen de cada categoría.
+    // Domesticación conserva 2 segundos + 2 segundos.
+    // Las demás categorías utilizan 1 segundo + 1 segundo.
+
     function iniciarSecuenciaPrimeraImagen(grupo) {
       limpiarTemporizadores();
+
+      if (piezaSecuenciaAutomatica) {
+        cambiarASticker(piezaSecuenciaAutomatica);
+        piezaSecuenciaAutomatica = null;
+      }
 
       if (piezaActiva) {
         cambiarASticker(piezaActiva);
@@ -195,18 +204,24 @@ const finales = [14, 15, 16];
       if (!primeraImagen) return;
 
       cambiarASticker(primeraImagen);
+      piezaSecuenciaAutomatica = primeraImagen;
+
+      const duracion = String(grupo) === "2" ? 2000 : 1000;
 
       temporizadorInicio = window.setTimeout(() => {
         cambiarATexto(primeraImagen);
 
         temporizadorTexto = window.setTimeout(() => {
           cambiarASticker(primeraImagen);
-        }, 2000);
+          piezaSecuenciaAutomatica = null;
+        }, duracion);
 
-      }, 2000);
+      }, duracion);
     }
 
-    // Interacción manual: muestra el texto durante 2 segundos.
+    // Interacción manual:
+    // el texto permanece hasta que la persona vuelva a tocar.
+
     function mostrarTextoTemporalmente(pieza) {
       limpiarTemporizadores();
 
@@ -216,21 +231,20 @@ const finales = [14, 15, 16];
 
       cambiarATexto(pieza);
       piezaActiva = pieza;
-
-      temporizadorRegreso = window.setTimeout(() => {
-        if (piezaActiva === pieza) {
-          cambiarASticker(pieza);
-          piezaActiva = null;
-        }
-      }, 2000);
     }
 
     // Categorías.
+
     botonesCategoria.forEach((boton) => {
       boton.addEventListener("click", () => {
         const grupo = boton.getAttribute("data-categoria");
 
         limpiarTemporizadores();
+
+        if (piezaSecuenciaAutomatica) {
+          cambiarASticker(piezaSecuenciaAutomatica);
+          piezaSecuenciaAutomatica = null;
+        }
 
         if (piezaActiva) {
           cambiarASticker(piezaActiva);
@@ -251,37 +265,59 @@ const finales = [14, 15, 16];
       });
     });
 
-    // Al pulsar cualquier imagen, muestra su texto durante 2 segundos.
+    // Interacción manual de todas las imágenes.
+
     proyecto.querySelectorAll(".pieza, .intercambiable").forEach((pieza) => {
       pieza.dataset.mostrandoTexto = "false";
 
       pieza.addEventListener("click", () => {
+        const secuenciaEnCurso = piezaSecuenciaAutomatica;
+
         limpiarTemporizadores();
+
+        // Si otra imagen estaba en la secuencia automática,
+        // la devolvemos inmediatamente a su sticker.
+
+        if (secuenciaEnCurso && secuenciaEnCurso !== pieza) {
+          cambiarASticker(secuenciaEnCurso);
+        }
+
+        piezaSecuenciaAutomatica = null;
+
+        // Si se vuelve a tocar la misma imagen manual,
+        // regresa a su sticker.
+
+        if (piezaActiva === pieza) {
+          cambiarASticker(pieza);
+          piezaActiva = null;
+          return;
+        }
+
+        // Si otra imagen estaba mostrando texto, la restablecemos.
 
         if (piezaActiva && piezaActiva !== pieza) {
           cambiarASticker(piezaActiva);
           piezaActiva = null;
         }
 
-        if (pieza.dataset.mostrandoTexto === "true") {
-          cambiarASticker(pieza);
-          piezaActiva = null;
-          return;
-        }
+        // La nueva imagen muestra su texto sin límite de tiempo.
 
         mostrarTextoTemporalmente(pieza);
       });
     });
 
     // Mostrar inicialmente solo Domesticación accidentada.
+
     piezas.forEach((pieza) => {
       pieza.hidden = pieza.getAttribute("data-grupo") !== "2";
     });
 
-    // Iniciar la secuencia de la primera imagen de Domesticación.
+    // Iniciar la secuencia automática de Domesticación.
+
     iniciarSecuenciaPrimeraImagen("2");
 
     // Sobre y secuencia.
+
     const sobre = proyecto.querySelector("[data-sobre]");
     const secuencia = proyecto.querySelector("[data-secuencia]");
     const imagenSecuencia = proyecto.querySelector("[data-secuencia-imagen]");
@@ -378,16 +414,16 @@ const finales = [14, 15, 16];
   }
 
   .categorias button.seleccionada::before {
-    content: "•";
-    color: #000000;
-    margin-right: 7px;
-  }
+  content: "•";
+  color: var(--color-categoria);
+  margin-right: 7px;
+}
 
-  .categorias button.seleccionada::after {
-    content: "•";
-    color: #000000;
-    margin-left: 7px;
-  }
+.categorias button.seleccionada::after {
+  content: "•";
+  color: var(--color-categoria);
+  margin-left: 7px;
+}
 
   .rejilla {
     width: 100%;
