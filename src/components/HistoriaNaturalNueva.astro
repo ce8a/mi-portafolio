@@ -1,0 +1,539 @@
+
+---
+const base = "/imagenes/historia_natural_de_las_cosas_particulares/";
+
+const grupos = [
+  { nombre: "Cosas del espacio", color: "#7c779e", inicio: 1, fin: 8, texto: 61 },
+  { nombre: "Brillos sospechosos", color: "#b79067", inicio: 9, fin: 19, texto: 69 },
+  { nombre: "Domesticación accidentada", color: "#3f529f", inicio: 20, fin: 38, texto: 80 },
+  { nombre: "Vida vegetal", color: "#8aa581", inicio: 39, fin: 48, texto: 99 },
+  { nombre: "Humanos y otros asuntos", color: "#c48693", inicio: 49, fin: 59, texto: 109 }
+];
+
+const imagenes = grupos.flatMap((grupo, indiceGrupo) =>
+  Array.from({ length: grupo.fin - grupo.inicio + 1 }, (_, i) => ({
+    numero: String(grupo.inicio + i).padStart(2, "0"),
+    texto: grupo.texto + i,
+    grupo: indiceGrupo
+  }))
+);
+
+const finales = [14, 15, 16];
+---
+
+<div class="historia-natural-nueva" data-historia-natural>
+  <div class="portada" data-portada data-rutas={JSON.stringify([1, 2, 3, 4].map(n => `${base}${n}.jpg`))}>
+    <img src={`${base}1.jpg`} alt="Historia natural de las cosas particulares" data-portada-imagen />
+  </div>
+
+  <nav class="categorias">
+    {grupos.map((grupo, i) => (
+      <button
+        type="button"
+        class:list={{ seleccionada: i === 2 }}
+        style={`--color-categoria: ${grupo.color}`}
+        data-categoria={i}
+      >
+        {grupo.nombre}
+      </button>
+    ))}
+  </nav>
+
+  <div class="rejilla">
+    {imagenes.map((imagen) => (
+      <button
+        type="button"
+        class="pieza"
+        data-grupo={imagen.grupo}
+        data-sticker={`${base}sticker-${imagen.numero}.jpg`}
+        data-texto={`${base}texto-${imagen.texto}.jpg`}
+        aria-label={`Mostrar texto de la imagen ${imagen.numero}`}
+      >
+        <img
+          src={`${base}sticker-${imagen.numero}.jpg`}
+          alt={`Imagen ${imagen.numero}`}
+          loading="lazy"
+        />
+      </button>
+    ))}
+  </div>
+
+  <div class="texto-proyecto">
+    <p>Historia natural de las cosas particulares surge de una exploración del Álbum de Chocolatinas Jet en su edición “Historia Natural” y de cómo sus imágenes despertaron fantasías a toda una generación en torno al mundo desconocido que aparecía en sus páginas. Hay cosas particulares que reposan en los gabinetes mentales. Suelen ser objetos que llegaron a nosotros en manos de otras personas y que, con el tiempo, se agruparon en una especie de inventario de cosas a través de las cuales aprendimos a mirar. Con este álbum quiero compartir un fragmento de los objetos dulces y queridos a los que siempre regreso. Llenarlo, dejarlo tal y como está, o completarlo con otras imágenes, es una elección personal. Esta es, ante todo, una invitación a desempolvar esas imágenes que están guardadas en el cajón de las cosas especiales y que nos enseñaron a imaginar mundos desconocidos.</p>
+  </div>
+
+  <p class="indicacion-tap">(tap)</p>
+
+  <div class="pieza-individual">
+    <img
+      src={`${base}sticker-60.jpg`}
+      data-sticker={`${base}sticker-60.jpg`}
+      data-texto={`${base}texto-120.jpg`}
+      alt="Imagen individual"
+      class="intercambiable"
+    />
+  </div>
+
+  <div class="imagen-sobre">
+    <button
+      type="button"
+      class="sobre-boton"
+      data-sobre
+      aria-label="Abrir sobre"
+    >
+      <img
+        src={`${base}sobre.jpg`}
+        alt="Sobre"
+        loading="lazy"
+      />
+    </button>
+
+    <div
+      class="secuencia-sobre"
+      data-secuencia
+      data-rutas={JSON.stringify(Array.from({ length: 8 }, (_, i) => `${base}${i + 6}.jpg`))}
+      hidden
+    >
+      <img
+        src={`${base}6.jpg`}
+        alt="Secuencia de imágenes"
+        data-secuencia-imagen
+      />
+    </div>
+  </div>
+
+  <div class="imagenes-finales">
+    {finales.map((numero) => (
+      <img src={`${base}${numero}.jpg`} alt={`Imagen final ${numero}`} loading="lazy" />
+    ))}
+  </div>
+
+  <div class="creditos-finales">
+    <p>Realizado para la asignatura <em>Taller 5</em>.</p>
+    <p>Escuela de Artes, Universidad Nacional de Colombia- Medellín.</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-historia-natural]").forEach((proyecto) => {
+    const portada = proyecto.querySelector("[data-portada]");
+    const portadaImagen = proyecto.querySelector("[data-portada-imagen]");
+    const rutas = JSON.parse(portada?.getAttribute("data-rutas") || "[]");
+
+    if (portadaImagen && rutas.length > 1) {
+      let indice = 0;
+
+      window.setInterval(() => {
+        indice = (indice + 1) % rutas.length;
+        portadaImagen.src = rutas[indice];
+      }, 500);
+    }
+
+    const botonesCategoria = proyecto.querySelectorAll("[data-categoria]");
+    const piezas = proyecto.querySelectorAll(".pieza");
+
+    let piezaActiva = null;
+    let temporizadorInicio = null;
+    let temporizadorTexto = null;
+    let temporizadorRegreso = null;
+
+    const cambiarASticker = (pieza) => {
+      if (!pieza) return;
+
+      const imagen = pieza.tagName === "IMG"
+        ? pieza
+        : pieza.querySelector("img");
+
+      if (!imagen) return;
+
+      imagen.src = pieza.dataset.sticker;
+      pieza.dataset.mostrandoTexto = "false";
+    };
+
+    const cambiarATexto = (pieza) => {
+      if (!pieza) return;
+
+      const imagen = pieza.tagName === "IMG"
+        ? pieza
+        : pieza.querySelector("img");
+
+      if (!imagen) return;
+
+      imagen.src = pieza.dataset.texto;
+      pieza.dataset.mostrandoTexto = "true";
+    };
+
+    function limpiarTemporizadores() {
+      window.clearTimeout(temporizadorInicio);
+      window.clearTimeout(temporizadorTexto);
+      window.clearTimeout(temporizadorRegreso);
+    }
+
+    // Primera imagen de cada categoría:
+    // 2 segundos de sticker, 2 segundos de texto y regreso al sticker.
+    function iniciarSecuenciaPrimeraImagen(grupo) {
+      limpiarTemporizadores();
+
+      if (piezaActiva) {
+        cambiarASticker(piezaActiva);
+        piezaActiva = null;
+      }
+
+      const primeraImagen = proyecto.querySelector(
+        `.pieza[data-grupo="${grupo}"]`
+      );
+
+      if (!primeraImagen) return;
+
+      cambiarASticker(primeraImagen);
+
+      temporizadorInicio = window.setTimeout(() => {
+        cambiarATexto(primeraImagen);
+
+        temporizadorTexto = window.setTimeout(() => {
+          cambiarASticker(primeraImagen);
+        }, 2000);
+
+      }, 2000);
+    }
+
+    // Interacción manual: muestra el texto durante 2 segundos.
+    function mostrarTextoTemporalmente(pieza) {
+      limpiarTemporizadores();
+
+      if (piezaActiva && piezaActiva !== pieza) {
+        cambiarASticker(piezaActiva);
+      }
+
+      cambiarATexto(pieza);
+      piezaActiva = pieza;
+
+      temporizadorRegreso = window.setTimeout(() => {
+        if (piezaActiva === pieza) {
+          cambiarASticker(pieza);
+          piezaActiva = null;
+        }
+      }, 2000);
+    }
+
+    // Categorías.
+    botonesCategoria.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const grupo = boton.getAttribute("data-categoria");
+
+        limpiarTemporizadores();
+
+        if (piezaActiva) {
+          cambiarASticker(piezaActiva);
+          piezaActiva = null;
+        }
+
+        botonesCategoria.forEach((otro) => {
+          otro.classList.remove("seleccionada");
+        });
+
+        boton.classList.add("seleccionada");
+
+        piezas.forEach((pieza) => {
+          pieza.hidden = pieza.getAttribute("data-grupo") !== grupo;
+        });
+
+        iniciarSecuenciaPrimeraImagen(grupo);
+      });
+    });
+
+    // Al pulsar cualquier imagen, muestra su texto durante 2 segundos.
+    proyecto.querySelectorAll(".pieza, .intercambiable").forEach((pieza) => {
+      pieza.dataset.mostrandoTexto = "false";
+
+      pieza.addEventListener("click", () => {
+        limpiarTemporizadores();
+
+        if (piezaActiva && piezaActiva !== pieza) {
+          cambiarASticker(piezaActiva);
+          piezaActiva = null;
+        }
+
+        if (pieza.dataset.mostrandoTexto === "true") {
+          cambiarASticker(pieza);
+          piezaActiva = null;
+          return;
+        }
+
+        mostrarTextoTemporalmente(pieza);
+      });
+    });
+
+    // Mostrar inicialmente solo Domesticación accidentada.
+    piezas.forEach((pieza) => {
+      pieza.hidden = pieza.getAttribute("data-grupo") !== "2";
+    });
+
+    // Iniciar la secuencia de la primera imagen de Domesticación.
+    iniciarSecuenciaPrimeraImagen("2");
+
+    // Sobre y secuencia.
+    const sobre = proyecto.querySelector("[data-sobre]");
+    const secuencia = proyecto.querySelector("[data-secuencia]");
+    const imagenSecuencia = proyecto.querySelector("[data-secuencia-imagen]");
+
+    if (sobre && secuencia && imagenSecuencia) {
+      const rutasSecuencia = JSON.parse(
+        secuencia.getAttribute("data-rutas") || "[]"
+      );
+
+      sobre.addEventListener("click", () => {
+        if (secuencia.dataset.reproduciendo === "true") return;
+
+        secuencia.dataset.reproduciendo = "true";
+        sobre.hidden = true;
+        secuencia.hidden = false;
+
+        let indice = 0;
+        imagenSecuencia.src = rutasSecuencia[indice];
+
+        const intervalo = window.setInterval(() => {
+          indice++;
+
+          if (indice >= rutasSecuencia.length) {
+            window.clearInterval(intervalo);
+            secuencia.hidden = true;
+            sobre.hidden = false;
+            secuencia.dataset.reproduciendo = "false";
+            return;
+          }
+
+          imagenSecuencia.src = rutasSecuencia[indice];
+        }, 300);
+      });
+    }
+  });
+</script>
+
+<style>
+  @font-face {
+    font-family: "Minion Variable Concept";
+    src: url("/fuentes/MinionVariableConcept-Roman.otf") format("opentype");
+    font-style: normal;
+    font-weight: 100 900;
+  }
+
+  .historia-natural-nueva {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .portada {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .portada img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .instruccion {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .categorias {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    padding: 0 0 50px;
+  }
+
+  .categorias button {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--color-categoria);
+    font-family: "Minion Variable Concept", serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .categorias button.seleccionada {
+    font-weight: 700;
+  }
+
+  .categorias button.seleccionada::before {
+    content: "•";
+    color: #000000;
+    margin-right: 7px;
+  }
+
+  .categorias button.seleccionada::after {
+    content: "•";
+    color: #000000;
+    margin-left: 7px;
+  }
+
+  .rejilla {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .pieza {
+    flex: 0 0 calc((100% - 84px) / 4);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .pieza img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .pieza[hidden] {
+    display: none;
+  }
+
+  .indicacion-tap {
+    width: 100%;
+    margin: 35px 0 0;
+    font-family: "Minion Variable Concept", serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292722;
+    text-align: center;
+  }
+
+  .texto-proyecto {
+    width: 100%;
+    margin: 45px 0 0;
+    font-family: "Minion Variable Concept", serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: normal;
+    text-align: justify;
+  }
+
+  .texto-proyecto p {
+    margin: 0;
+  }
+
+  .pieza-individual {
+    width: 40%;
+    margin: 30px auto 8px;
+  }
+
+  .pieza-individual img,
+  .imagenes-finales img {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+
+  .imagen-sobre {
+    width: 90%;
+    margin: 0 auto 60px;
+  }
+
+  .sobre-boton {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .sobre-boton[hidden] {
+    display: none;
+  }
+
+  .sobre-boton img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .secuencia-sobre {
+    width: 100%;
+  }
+
+  .secuencia-sobre[hidden] {
+    display: none;
+  }
+
+  .secuencia-sobre img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .imagenes-finales {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .imagenes-finales img {
+    margin: 0;
+  }
+
+  .creditos-finales {
+    width: 100%;
+    margin-top: 60px;
+    font-size: 12px;
+    text-align: left;
+    line-height: 1.2;
+  }
+
+  .creditos-finales p {
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (max-width: 600px) {
+    .historia-natural-nueva {
+      gap: 0;
+    }
+
+    .categorias button {
+      font-size: 14px;
+    }
+
+    .rejilla {
+      gap: 20px;
+    }
+
+    .pieza {
+      flex-basis: calc((100% - 40px) / 3);
+    }
+
+    .texto-proyecto {
+      font-size: 14px;
+    }
+
+    .pieza-individual {
+      width: 55%;
+    }
+
+    .imagen-sobre {
+      width: 95%;
+    }
+  }
+</style>

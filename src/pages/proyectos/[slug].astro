@@ -2,6 +2,7 @@
 ---
 import ProyectoLayout from "../../layouts/ProyectoLayout.astro";
 import { categorias, proyectosIndependientes } from "../../data/proyectos.js";
+import HistoriaNaturalNueva from "../../components/HistoriaNaturalNueva.astro";
 
 export function getStaticPaths() {
   const todosLosProyectos = [
@@ -39,13 +40,16 @@ const { proyecto } = Astro.props;
     </div>
 
     <div class="contenido-proyecto">
-      <div class="galeria-proyecto">
+      {proyecto.tipoEspecial === "historia-natural-nueva" ? (
+  <HistoriaNaturalNueva />
+) : (
+  <div class="galeria-proyecto"> 
 
         {proyecto.textoAntes && (
           <p class="texto-antes">{proyecto.textoAntes}</p>
         )}
 
-        {proyecto.imagenes.map((imagen, index) => (
+         {(proyecto.imagenes ?? []).map((imagen, index) => (
           <>
             {imagen.tipo === "video" ? (
               <video
@@ -167,6 +171,7 @@ const { proyecto } = Astro.props;
         )}
 
       </div>
+      )}
     </div>
 
   </section>

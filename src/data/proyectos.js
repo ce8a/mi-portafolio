@@ -289,8 +289,28 @@ export const proyectosIndependientes = [
 Medellín, 2026.`
 },
   
-{
-  nombre: "Carro",
+  {
+    nombre: "Historia natural de las cosas particulares",
+    slug: "historia-natural-de-las-cosas-particulares-nueva",
+    anio: "2026",
+    descripcion: "",
+    tipoEspecial: "historia-natural-nueva",
+    portadaRutas: [
+      "/imagenes/historia_natural_de_las_cosas_particulares/1.jpg",
+      "/imagenes/historia_natural_de_las_cosas_particulares/2.jpg",
+      "/imagenes/historia_natural_de_las_cosas_particulares/3.jpg",
+      "/imagenes/historia_natural_de_las_cosas_particulares/4.jpg"
+    ],
+    imagenesFinales: [
+      "/imagenes/historia_natural_de_las_cosas_particulares/14.jpg",
+      "/imagenes/historia_natural_de_las_cosas_particulares/15.jpg",
+      "/imagenes/historia_natural_de_las_cosas_particulares/16.jpg"
+    ],
+    textoFinal: "Escuela de Artes, Universidad Nacional de Colombia- Medellín."
+  },
+
+  {
+    nombre: "Carro",
   slug: "carro",
   anio: "",
   descripcion: "",
