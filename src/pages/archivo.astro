@@ -23,7 +23,7 @@ import { categorias, proyectosIndependientes } from "../data/proyectos.js";
         {proyectosIndependientes.filter((proyecto) => proyecto.slug !== "historia-natural-de-las-cosas-particulares").map((proyecto) => (
           <a
             class="proyecto-independiente"
-            href={`/proyectos/${proyecto.slug}`}
+            href={proyecto.tipoEspecial === "historia-natural-nueva" ? "/cosas-particulares" : `/proyectos/${proyecto.slug}`}
           >
             {proyecto.nombre}
           </a>

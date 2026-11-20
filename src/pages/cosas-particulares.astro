@@ -1,0 +1,108 @@
+
+---
+import ProyectoLayout from "../layouts/ProyectoLayout.astro";
+import HistoriaNaturalNueva from "../components/HistoriaNaturalNueva.astro";
+---
+
+<ProyectoLayout
+  titulo="Historia natural de las cosas particulares"
+  descripcion=""
+>
+  <section class="pagina-proyecto">
+    <div class="barra-proyecto">
+      <a class="volver" href="/archivo">Volver</a>
+
+      <header class="encabezado-proyecto">
+        <h1>Historia natural de las cosas particulares</h1>
+        <p class="anio">2026</p>
+      </header>
+    </div>
+
+    <div class="contenido-proyecto">
+      <HistoriaNaturalNueva />
+    </div>
+  </section>
+</ProyectoLayout>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+  .pagina-proyecto {
+    position: relative;
+    margin-left: 296px;
+    padding-top: 79px;
+    padding-right: 60px;
+    padding-bottom: 80px;
+    font-family: 'Montserrat', sans-serif;
+    color: #292722;
+  }
+
+  .barra-proyecto {
+    position: relative;
+    height: 62px;
+  }
+
+  .volver {
+    position: fixed;
+    left: 296px;
+    top: 79px;
+    z-index: 20;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .encabezado-proyecto {
+    position: absolute;
+    left: 383px;
+    top: 0;
+    margin: 0;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .anio {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .contenido-proyecto {
+    width: 599px;
+    max-width: 100%;
+    margin-left: 383px;
+  }
+
+  @media (max-width: 600px) {
+    .pagina-proyecto {
+      margin-left: 0;
+      padding: 30px 24px;
+    }
+
+    .volver {
+      display: none;
+    }
+
+    .barra-proyecto {
+      height: auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 30px;
+    }
+
+    .encabezado-proyecto {
+      position: static;
+    }
+
+    .contenido-proyecto {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+</style>
